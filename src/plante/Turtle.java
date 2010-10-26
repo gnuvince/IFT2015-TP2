@@ -8,9 +8,9 @@ public class Turtle {
     private Stack<TurtleState> previousStates = new Stack<TurtleState>();
     private int initial_x;
     private int initial_y;
+    private double initial_angle;
 
     private int distance;
-    private double angle;
     private double delta;
     private RuleSet ruleSet;
 
@@ -20,13 +20,13 @@ public class Turtle {
         this.initial_y = y;
         this.delta = Math.toRadians(delta);
         this.distance = distance;
-        this.angle = Math.toRadians(angle);
+        this.initial_angle = Math.toRadians(angle);
         this.ruleSet = ruleSet;
         reset();
     }
 
     public void reset() {
-        state = new TurtleState(initial_x, initial_y, angle);
+        state = new TurtleState(initial_x, initial_y, initial_angle);
     }
 
     private void moveForward() {
@@ -34,8 +34,8 @@ public class Turtle {
     }
 
     private void moveForward(Graphics g) {
-        int new_x = state.x + (int) (Math.cos(state.delta) * distance);
-        int new_y = state.y + (int) (Math.sin(state.delta) * distance);
+        int new_x = state.x + (int) (Math.cos(state.angle) * distance);
+        int new_y = state.y + (int) (Math.sin(state.angle) * distance);
 
         if (g != null) {
             g.drawLine(state.x, state.y, new_x, new_y);
@@ -46,11 +46,11 @@ public class Turtle {
     }
 
     private void turnLeft() {
-        state.delta -= delta;
+        state.angle -= delta;
     }
 
     private void turnRight() {
-        state.delta += delta;
+        state.angle += delta;
     }
 
     private void pushState() {
@@ -93,15 +93,12 @@ public class Turtle {
     // This recursive function keeps memory down to a minimum versus storing
     // the entire expansion in memory.
     public void draw(Graphics g, String s, int level) {
-        if (level == 0) {
+        if (level == 0) 
             for (int i = 0; i < s.length(); ++i)
                 applyOperation(s.charAt(i), g);
-            return;
-        }
-
-        for (int i = 0; i < s.length(); ++i) {
-            draw(g, ruleSet.getString(s.charAt(i)), level - 1);
-        }
+        else
+            for (int i = 0; i < s.length(); ++i) 
+                draw(g, ruleSet.getString(s.charAt(i)), level - 1);
     }
 
     public String toString() {

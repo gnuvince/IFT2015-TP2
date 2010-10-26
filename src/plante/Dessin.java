@@ -10,7 +10,7 @@ public class Dessin {
     private static int WIDTH = 1000;
     private static int HEIGHT = 760;
     private static int DEFAULT_X = WIDTH / 2;
-    private static int DEFAULT_Y = HEIGHT;
+    private static int DEFAULT_Y = HEIGHT - 30;
     private static int DEFAULT_DISTANCE = 10;
     private static double DEFAULT_DELTA = 90.0;
     private static double DEFAULT_ANGLE = 270.0;

@@ -27,22 +27,25 @@ public class Dessin {
         double angle = cmdLineArgs.get("-a", DEFAULT_ANGLE);
 
         // Mandatory arguments
-        int iterations = Integer.parseInt(cmdLineArgs.arguments.get(0));
+        int iterations = 0;
+        
+        try {
+             iterations = Integer.parseInt(cmdLineArgs.arguments.get(0));
+        }
+        catch (NumberFormatException e) {
+            System.err.println("Erreur: le nombre d'itérations doit être un entier");
+            System.exit(1);
+        }
+        
         String initialRule = cmdLineArgs.arguments.get(1);
+        if (!RuleSet.isRuleValid(initialRule)) {
+            System.err.printf("Erreur: '%s' n'est pas une règle valide\n", initialRule);
+            System.exit(1);
+        }
+        
         RuleSet ruleSet = new RuleSet();
         cmdLineArgs.addRules(ruleSet);
 
-        /*
-        System.out.println("Distance: " + distance);
-        System.out.println("X: " + x);
-        System.out.println("Y: " + y);
-        System.out.println("Angle: " + angle);
-        System.out.println("Delta: " + delta);
-        System.out.println("Iterations: " + iterations);
-        System.out.println("Initial: " + initialRule);
-        System.out.println("Rules: " + ruleSet);
-        */
-        
         Turtle turtle = new Turtle(x, y, delta, distance, angle, ruleSet);
         TurtlePanel panel = new TurtlePanel(turtle, initialRule, iterations);
         

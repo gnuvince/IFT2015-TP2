@@ -21,12 +21,12 @@ public class RuleSet {
     
     
     // Return if the character is in the alphabet.
-    private boolean isCharValid(Character c) {
+    public static boolean isCharValid(Character c) {
         return VALID_CHARACTERS.indexOf(c) != -1;
     }
     
     // Return if a string is sequence of characters in the alphabet.
-    private boolean isRuleValid(String s) {
+    public static boolean isRuleValid(String s) {
         for (int i = 0; i < s.length(); ++i)
             if (!isCharValid(s.charAt(i)))
                 return false;

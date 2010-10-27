@@ -1,3 +1,9 @@
+/*
+ * Vincent Foley-Bourgon (FOLV08078309)
+ * Stella Domingo (DOMC03588902)
+ */
+
+
 package plante;
 
 import java.util.ArrayList;

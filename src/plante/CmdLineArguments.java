@@ -18,6 +18,17 @@ public class CmdLineArguments {
         System.exit(1);
     }
     
+    public static double toDouble(String value, String errorMessage) {
+        try {
+            return Double.parseDouble(value);
+        }
+        catch (NumberFormatException e) {
+            System.err.println("Erreur: " + errorMessage);
+            System.exit(1);
+        }
+        return Double.NaN; // UNREACHABLE
+    }
+    
     public void parse(String[] args) {
         if (args.length < 2) {
             usage();
@@ -26,14 +37,8 @@ public class CmdLineArguments {
         int i = 0;
         while (i < args.length) {
             if (args[i].charAt(0) == '-') {
-                try {
-                    options.put(args[i], Double.parseDouble(args[i + 1]));
-                    i += 2;
-                }
-                catch (NumberFormatException e) {
-                    System.err.println("Erreur: " + args[i] + " doit être suivi d'un nombre");
-                    System.exit(1);
-                }
+                options.put(args[i], toDouble(args[i + 1], args[i] + " doit être un double"));
+                i += 2;
             }
             else {
                 arguments.add(args[i]);

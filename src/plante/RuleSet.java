@@ -49,6 +49,7 @@ public class RuleSet {
             rules.put(key, rightSide);
         }
         
+        // Do not allow duplicated rules
         if (!rightSide.contains(value))
             rightSide.add(value);
     }

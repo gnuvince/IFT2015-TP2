@@ -1,16 +1,20 @@
 package plante;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Dessin {
-    private static int WIDTH = 1000;
-    private static int HEIGHT = 760;
+    private static Toolkit tk = Toolkit.getDefaultToolkit();
+    private static Dimension dim = tk.getScreenSize();
+    private static int WIDTH = dim.width;
+    private static int HEIGHT = dim.height;
     private static int DEFAULT_X = WIDTH / 2;
-    private static int DEFAULT_Y = HEIGHT - 30;
+    private static int DEFAULT_Y = HEIGHT - 32;
     private static int DEFAULT_DISTANCE = 10;
     private static double DEFAULT_DELTA = 90.0;
     private static double DEFAULT_ANGLE = 270.0;
@@ -18,37 +22,34 @@ public class Dessin {
     public static void main(String[] args) throws InvalidRuleException {
         CmdLineArguments cmdLineArgs = new CmdLineArguments();
         cmdLineArgs.parse(args);
-        
+
         // Optional arguments
-        int distance = (int)cmdLineArgs.get("-D", DEFAULT_DISTANCE);
-        int x = (int)cmdLineArgs.get("-x", DEFAULT_X);
-        int y = (int)cmdLineArgs.get("-y", DEFAULT_Y);
+        int distance = (int) cmdLineArgs.get("-D", DEFAULT_DISTANCE);
+        int x = (int) cmdLineArgs.get("-x", DEFAULT_X);
+        int y = (int) cmdLineArgs.get("-y", DEFAULT_Y);
         double delta = cmdLineArgs.get("-delta", DEFAULT_DELTA);
         double angle = cmdLineArgs.get("-a", DEFAULT_ANGLE);
 
         // Mandatory arguments
         int iterations = 0;
-        
-        try {
-             iterations = Integer.parseInt(cmdLineArgs.arguments.get(0));
-        }
-        catch (NumberFormatException e) {
-            System.err.println("Erreur: le nombre d'itérations doit être un entier");
-            System.exit(1);
-        }
-        
+
+        iterations = (int) CmdLineArguments.toDouble(
+            cmdLineArgs.arguments .get(0), 
+            "le nombre d'itérations doit être un entier");
+
         String initialRule = cmdLineArgs.arguments.get(1);
         if (!RuleSet.isRuleValid(initialRule)) {
-            System.err.printf("Erreur: '%s' n'est pas une règle valide\n", initialRule);
+            System.err.printf("Erreur: '%s' n'est pas une règle valide\n",
+                initialRule);
             System.exit(1);
         }
-        
+
         RuleSet ruleSet = new RuleSet();
         cmdLineArgs.addRules(ruleSet);
 
         Turtle turtle = new Turtle(x, y, delta, distance, angle, ruleSet);
         TurtlePanel panel = new TurtlePanel(turtle, initialRule, iterations);
-        
+
         JFrame frame = new JFrame("Devoir #2");
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

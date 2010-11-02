@@ -1,0 +1,4 @@
+java -cp bin plante.Dessin -D 2 6 F F:F+F+[fff]+F+FF
+java -cp bin plante.Dessin -delta 25 -D 4 7 X X:F-[[X]+X]+F[+FX]-X F:FF
+java -cp bin plante.Dessin -y 400 -delta 90 -D 2 13 F F:+FF
+-y 700 -a 333 -delta 16 -D 10 4 "++++F" "F:FF-[-F+F+F]+[+F-F-F]"
